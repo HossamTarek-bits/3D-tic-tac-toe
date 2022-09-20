@@ -270,8 +270,6 @@ const Script = (props) => {
     p5.textSize(isMobile ? 12 : 32);
     p5.textAlign(p5.CENTER, p5.CENTER);
 
-    p5.fill(0);
-    p5.text("3D XO", -p5.width / 2, p5.height / 2);
     p5.text("current player " + currentPlayer, 0, -p5.height / 2 + 50);
     p5.text("current position " + currentPosition, 0, -p5.height / 2 + 100);
     p5.fill(255, 0, 0);
@@ -280,16 +278,22 @@ const Script = (props) => {
     p5.fill(0, 0, 255);
     p5.text("Player 2 in blue", p5.width / 2 - 100, -p5.height / 2 + 50);
     if (player === 2) p5.text("You", p5.width / 2 - 100, -p5.height / 2 + 100);
-    p5.fill(0);
-    p5.text(
-      "Move through x-axis with left & right keys",
-      0,
-      p5.height / 2 - 150
-    );
-    p5.text("Move through y-axis with up & down keys", 0, p5.height / 2 - 100);
-    p5.text("Move through z-axis using z key", 0, p5.height / 2 - 50);
-    p5.text("Place with space", 0, p5.height / 2);
-
+    if (!isMobile) {
+      p5.fill(0);
+      p5.text("3D XO", -p5.width / 2, p5.height / 2);
+      p5.text(
+        "Move through x-axis with left & right keys",
+        0,
+        p5.height / 2 - 150
+      );
+      p5.text(
+        "Move through y-axis with up & down keys",
+        0,
+        p5.height / 2 - 100
+      );
+      p5.text("Move through z-axis using z key", 0, p5.height / 2 - 50);
+      p5.text("Place with space", 0, p5.height / 2);
+    }
     p5.orbitControl(3, 3, 0.1);
     p5.ambientLight(255);
     p5.ambientMaterial(100);
