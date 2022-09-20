@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/3D-tic-tac-toe/static/css/main.ae9ba962.css",
+    "main.js": "/3D-tic-tac-toe/static/js/main.1b245c5a.js",
+    "static/media/FallingSkyMedium.otf": "/3D-tic-tac-toe/static/media/FallingSkyMedium.55827e3e1d515682e9fa.otf",
+    "index.html": "/3D-tic-tac-toe/index.html",
+    "main.ae9ba962.css.map": "/3D-tic-tac-toe/static/css/main.ae9ba962.css.map",
+    "main.1b245c5a.js.map": "/3D-tic-tac-toe/static/js/main.1b245c5a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ae9ba962.css",
+    "static/js/main.1b245c5a.js"
+  ]
+}
