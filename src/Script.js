@@ -178,8 +178,10 @@ const Script = (props) => {
     p5.text("current position " + currentPosition, 0, -p5.height / 2 + 100);
     p5.fill(255, 0, 0);
     p5.text("Player 1 in red", -p5.width / 2 + 100, -p5.height / 2 + 50);
+    if (player === 1) p5.text("You", -p5.width / 2 + 100, -p5.height / 2 + 100);
     p5.fill(0, 0, 255);
     p5.text("Player 2 in blue", p5.width / 2 - 100, -p5.height / 2 + 50);
+    if (player === 2) p5.text("You", p5.width / 2 - 100, -p5.height / 2 + 100);
     p5.fill(0);
     p5.text(
       "Move through x-axis with left & right keys",
