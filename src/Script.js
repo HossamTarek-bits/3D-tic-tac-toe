@@ -154,7 +154,7 @@ const Script = (props) => {
     board = new Board();
     firebase = new Firebase();
     firebase.deleteOldGames();
-
+    isMobileFunc(p5);
     gameCodeInput = p5.createInput("game code");
     gameCodeInput.position(10, 10);
     gameCodeInput.input((e) => (gameCode = e.target.value));
