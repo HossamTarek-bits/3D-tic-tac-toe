@@ -17,8 +17,103 @@ let gameCodeInput;
 let resetButton;
 let waitingForOpponent = true;
 let player = 1;
+let isMobile = false;
+let placeButton;
+let rightControlButton;
+let leftControlButton;
+let upControlButton;
+let downControlButton;
+let zButton;
 const Script = (props) => {
   font = FallingSkyMedium;
+
+  const isMobileFunc = (p5) => {
+    if (p5.windowWidth < 600) {
+      isMobile = true;
+    } else {
+      isMobile = false;
+    }
+    if (isMobile) {
+      placeButton = p5.createButton("Place");
+      placeButton.position(10, 110);
+      placeButton.mousePressed(() => {
+        if (
+          state === 0 &&
+          currentPlayer === player &&
+          !waitingForOpponent &&
+          board.place(
+            currentPosition[0],
+            currentPosition[1],
+            currentPosition[2],
+            currentPlayer
+          )
+        ) {
+          state = board.checkState(currentPlayer);
+          if (state === 0) {
+            if (currentPlayer === 1) {
+              currentPlayer = 2;
+            } else {
+              currentPlayer = 1;
+            }
+          }
+          firebase.updateGame(gameCode, {
+            board: JSON.stringify(board.board),
+            currentPlayer: currentPlayer,
+            currentPosition: currentPosition,
+            state: state,
+            waitingForOpponent: waitingForOpponent,
+          });
+        }
+      });
+      rightControlButton = p5.createButton("->");
+      rightControlButton.position(10, 140);
+      rightControlButton.mousePressed(() => {
+        if (state === 0 && currentPosition[0] < 2) {
+          currentPosition[0]++;
+        }
+      });
+      leftControlButton = p5.createButton("<-");
+      leftControlButton.position(10, 170);
+      leftControlButton.mousePressed(() => {
+        if (state === 0 && currentPosition[0] > 0) {
+          currentPosition[0]--;
+        }
+      });
+      upControlButton = p5.createButton("^");
+      upControlButton.position(10, 200);
+      upControlButton.mousePressed(() => {
+        if (state === 0 && currentPosition[1] > 0) {
+          currentPosition[1]--;
+        }
+      });
+      downControlButton = p5.createButton("v");
+      downControlButton.position(10, 230);
+      downControlButton.mousePressed(() => {
+        if (state === 0 && currentPosition[1] < 2) {
+          currentPosition[1]++;
+        }
+      });
+      zButton = p5.createButton("Z");
+      zButton.position(10, 260);
+      zButton.mousePressed(() => {
+        if (state === 0 && currentPosition[2] > 0) {
+          currentPosition[2]--;
+        } else if (state === 0 && currentPosition[2] === 0) {
+          currentPosition[2] = 2;
+        }
+      });
+    } else {
+      try {
+        placeButton.hide();
+        rightControlButton.hide();
+        leftControlButton.hide();
+        upControlButton.hide();
+        downControlButton.hide();
+        zButton.hide();
+      } catch (e) {}
+    }
+  };
+
   const subscribeToGame = (callback) => {
     firebase.subscribeToGame(gameCode, (game) => {
       game = game.game;
@@ -55,9 +150,11 @@ const Script = (props) => {
 
   const setup = (p5, canvasParentRef) => {
     // 3x3x3 board
+
     board = new Board();
     firebase = new Firebase();
     firebase.deleteOldGames();
+
     gameCodeInput = p5.createInput("game code");
     gameCodeInput.position(10, 10);
     gameCodeInput.input((e) => (gameCode = e.target.value));
@@ -102,6 +199,7 @@ const Script = (props) => {
       resetRoutine();
     });
     resetButton.hide();
+
     p5.createCanvas(p5.windowWidth, p5.windowHeight, p5.WEBGL).parent(
       canvasParentRef
     );
@@ -169,7 +267,7 @@ const Script = (props) => {
   const draw = (p5) => {
     p5.background(255);
     p5.textFont(font);
-    p5.textSize(32);
+    p5.textSize(isMobile ? 12 : 32);
     p5.textAlign(p5.CENTER, p5.CENTER);
 
     p5.fill(0);
@@ -300,6 +398,7 @@ const Script = (props) => {
       windowResized={(p5) => {
         p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
         p5.camera(0, 0, 1000, 0, 0, 0, 0, 1, 0);
+        isMobileFunc(p5);
       }}
     />
   );
