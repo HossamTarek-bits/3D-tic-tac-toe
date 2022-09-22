@@ -443,7 +443,7 @@ const Script = (props) => {
       p5.text("Waiting for opponent", 0, 0);
       p5.pop();
     }
-    if (state === 0) {
+    if (state !== 0) {
       resetButton.show();
     }
     p5.pop();
