@@ -24,6 +24,10 @@ let leftControlButton;
 let upControlButton;
 let downControlButton;
 let zButton;
+let playWithAiButton;
+let ai = false;
+let difficultySelectionButton;
+let aiDifficulty = "medium";
 const Script = (props) => {
   font = FallingSkyMedium;
 
@@ -138,13 +142,15 @@ const Script = (props) => {
     currentPlayer = 1;
     currentPosition = [1, 1, 2];
     state = 0;
-    firebase.updateGame(gameCode, {
-      board: JSON.stringify(board.board),
-      currentPlayer,
-      currentPosition,
-      state,
-      waitingForOpponent,
-    });
+    if (!ai) {
+      firebase.updateGame(gameCode, {
+        board: JSON.stringify(board.board),
+        currentPlayer,
+        currentPosition,
+        state,
+        waitingForOpponent,
+      });
+    }
     resetButton.hide();
   };
 
@@ -199,7 +205,28 @@ const Script = (props) => {
       resetRoutine();
     });
     resetButton.hide();
-
+    playWithAiButton = p5.createButton("Play with AI");
+    playWithAiButton.position(10, 70);
+    playWithAiButton.mousePressed(() => {
+      ai = true;
+      player = 1;
+      waitingForOpponent = false;
+      gameCodeInput.hide();
+      joinButton.hide();
+      createGameButton.hide();
+      difficultySelectionButton.attribute("disabled", true);
+    });
+    difficultySelectionButton = p5.createSelect();
+    difficultySelectionButton.position(10, 90);
+    difficultySelectionButton.option("Random");
+    difficultySelectionButton.option("Easy");
+    difficultySelectionButton.option("Medium");
+    difficultySelectionButton.option("Hard");
+    difficultySelectionButton.option("Impossible");
+    difficultySelectionButton.value("Medium");
+    difficultySelectionButton.changed(() => {
+      aiDifficulty = difficultySelectionButton.value().toLowerCase();
+    });
     p5.createCanvas(p5.windowWidth, p5.windowHeight, p5.WEBGL).parent(
       canvasParentRef
     );
@@ -252,13 +279,15 @@ const Script = (props) => {
               currentPlayer = 1;
             }
           }
-          firebase.updateGame(gameCode, {
-            board: JSON.stringify(board.board),
-            currentPlayer: currentPlayer,
-            currentPosition: currentPosition,
-            state: state,
-            waitingForOpponent: waitingForOpponent,
-          });
+          if (!ai) {
+            firebase.updateGame(gameCode, {
+              board: JSON.stringify(board.board),
+              currentPlayer: currentPlayer,
+              currentPosition: currentPosition,
+              state: state,
+              waitingForOpponent: waitingForOpponent,
+            });
+          }
         }
       }
     }
@@ -269,9 +298,12 @@ const Script = (props) => {
     p5.textFont(font);
     p5.textSize(isMobile ? 12 : 32);
     p5.textAlign(p5.CENTER, p5.CENTER);
-
-    p5.text("current player " + currentPlayer, 0, -p5.height / 2 + 50);
-    p5.text("current position " + currentPosition, 0, -p5.height / 2 + 100);
+    if (state === 0 && !waitingForOpponent) {
+      if (currentPlayer === 1) p5.fill(255, 0, 0);
+      else p5.fill(0, 0, 255);
+      p5.text("current player " + currentPlayer, 0, -p5.height / 2 + 50);
+      p5.text("current position " + currentPosition, 0, -p5.height / 2 + 100);
+    }
     p5.fill(255, 0, 0);
     p5.text("Player 1 in red", -p5.width / 2 + 100, -p5.height / 2 + 50);
     if (player === 1) p5.text("You", -p5.width / 2 + 100, -p5.height / 2 + 100);
@@ -297,8 +329,9 @@ const Script = (props) => {
     p5.orbitControl(3, 3, 0.1);
     p5.ambientLight(255);
     p5.ambientMaterial(100);
+    p5.push();
     p5.translate(-200, -200, -300);
-    if (state === 0 && !waitingForOpponent) {
+    if (!waitingForOpponent) {
       for (let x = 0; x <= 2; x++) {
         for (let y = 0; y <= 2; y++) {
           for (let z = 0; z <= 2; z++) {
@@ -372,25 +405,25 @@ const Script = (props) => {
     } else {
       resetButton.show();
     }
-
+    p5.pop();
+    p5.push();
     if (state === 1) {
-      p5.push();
-      p5.translate(200, 200, 300);
-      p5.fill(0);
-      p5.text("Player 1 won", 0, 0);
-      p5.pop();
+      p5.fill(255, 0, 0);
+      p5.text("Player 1 won", 0, -p5.height / 2 + 50);
     } else if (state === 2) {
-      p5.push();
-      p5.translate(200, 200, 300);
-      p5.fill(0);
-      p5.text("Player 2 won", 0, 0);
-      p5.pop();
+      p5.fill(0, 0, 255);
+      p5.text("Player 2 won", 0, -p5.height / 2 + 50);
     } else if (state === 3) {
-      p5.push();
-      p5.translate(200, 200, 300);
       p5.fill(0);
-      p5.text("Draw", 0, 0);
-      p5.pop();
+      p5.text("Draw", 0, -p5.height / 2 + 50);
+    }
+    p5.pop();
+    if (ai && currentPlayer === 2) {
+      let move = board.monteCarloTreeSearch(aiDifficulty);
+      board.place(move["x"], move["y"], move["z"], 2);
+      currentPosition = [move["x"], move["y"], move["z"]];
+      currentPlayer = 1;
+      state = board.checkState();
     }
   };
   return (

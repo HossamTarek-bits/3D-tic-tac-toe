@@ -1,3 +1,4 @@
+var _ = require("lodash");
 export default class Board {
   // 0 = empty
   // 1 = player 1
@@ -5,15 +6,24 @@ export default class Board {
   constructor(n = 3) {
     this.n = n;
     this.board = [];
+    this.available = [];
     for (let x = 0; x < n; x++) {
       this.board[x] = [];
       for (let y = 0; y < n; y++) {
         this.board[x][y] = [];
         for (let z = 0; z < n; z++) {
           this.board[x][y][z] = 0;
+          this.available.push({ x, y, z });
         }
       }
     }
+    this.difficulties = {
+      random: 0,
+      easy: 0.3,
+      medium: 0.5,
+      hard: 0.7,
+      impossible: 1,
+    };
   }
 
   checkState() {
@@ -296,6 +306,11 @@ export default class Board {
   place(x, y, z, player) {
     if (this.checkifValid(x, y, z)) {
       this.board[x][y][z] = player;
+      this.available = _.remove(this.available, function (n) {
+        console.log(n);
+        return n["x"] !== x || n["y"] !== y || n["z"] !== z;
+      });
+
       return true;
     }
     return false;
@@ -309,5 +324,61 @@ export default class Board {
         }
       }
     }
+  }
+
+  monteCarloTreeSearch(difficulty = "medium") {
+    if (Math.random() < this.difficulties[difficulty]) {
+      let bestMove = null;
+      let bestScore = -Infinity;
+      for (let i = 0; i < this.available.length; i++) {
+        let move = this.available[i];
+        let board = new Board(this.n);
+        board.board = _.cloneDeep(this.board);
+        board.available = _.cloneDeep(this.available);
+        board.place(move["x"], move["y"], move["z"], 1);
+        let score = board.monteCarloSimulation(1);
+        if (score >= bestScore) {
+          bestScore = score;
+          bestMove = move;
+        }
+      }
+      for (let i = 0; i < this.available.length; i++) {
+        let move = this.available[i];
+        let board = new Board(this.n);
+        board.board = _.cloneDeep(this.board);
+        board.available = _.cloneDeep(this.available);
+        board.place(move["x"], move["y"], move["z"], 2);
+        let score = board.monteCarloSimulation(2);
+        if (score >= bestScore) {
+          bestScore = score;
+          bestMove = move;
+        }
+      }
+      return bestMove;
+    }
+    return this.available[Math.floor(Math.random() * this.available.length)];
+  }
+
+  monteCarloSimulation(player) {
+    let board = new Board(this.n);
+    board.board = _.cloneDeep(this.board);
+    board.available = _.cloneDeep(this.available);
+    let winner = board.checkState();
+    if (winner !== 0) {
+      if (winner === player) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+    let available = board.available;
+    let randomMove = available[Math.floor(Math.random() * available.length)];
+    board.place(
+      randomMove["x"],
+      randomMove["y"],
+      randomMove["z"],
+      player === 1 ? 2 : 1
+    );
+    return board.monteCarloSimulation(player);
   }
 }
