@@ -3,6 +3,10 @@ import Sketch from "react-p5";
 import Board from "./Board";
 import FallingSkyMedium from "./fonts/FallingSkyMedium.otf";
 import Firebase from "./Firebase";
+import arrowRight from "./icons/arrow-right.svg";
+import arrowLeft from "./icons/arrow-left.svg";
+import arrowUp from "./icons/arrow-up.svg";
+import arrowDown from "./icons/arrow-down.svg";
 
 let board;
 let currentPlayer = 1;
@@ -28,6 +32,10 @@ let playWithAiButton;
 let ai = false;
 let difficultySelectionButton;
 let aiDifficulty = "medium";
+let backgroundColor = "#181818";
+let primaryColor = "#8758FF";
+let secondaryColor = "#5CB8E4";
+let textColor = "#F2F2F2";
 const Script = (props) => {
   font = FallingSkyMedium;
 
@@ -39,7 +47,9 @@ const Script = (props) => {
     }
     if (isMobile) {
       placeButton = p5.createButton("Place");
-      placeButton.position(10, 110);
+      placeButton.attribute("class", "mobileButton placeButton");
+
+      // placeButton.position(10, 110);
       placeButton.mousePressed(() => {
         if (
           state === 0 &&
@@ -69,36 +79,49 @@ const Script = (props) => {
           });
         }
       });
-      rightControlButton = p5.createButton("->");
-      rightControlButton.position(10, 140);
+      rightControlButton = p5.createButton("");
+      rightControlButton.attribute("class", "mobileButton rightControlButton");
+      let rightControlImage = p5.createImg(arrowRight, "right arrow");
+      rightControlButton.child(rightControlImage);
+      // rightControlButton.position(10, 140);
       rightControlButton.mousePressed(() => {
         if (state === 0 && currentPosition[0] < 2) {
           currentPosition[0]++;
         }
       });
-      leftControlButton = p5.createButton("<-");
-      leftControlButton.position(10, 170);
+      leftControlButton = p5.createButton("");
+      leftControlButton.attribute("class", "mobileButton leftControlButton");
+      let leftControlImage = p5.createImg(arrowLeft, "left arrow");
+      leftControlButton.child(leftControlImage);
+      // leftControlButton.position(10, 170);
       leftControlButton.mousePressed(() => {
         if (state === 0 && currentPosition[0] > 0) {
           currentPosition[0]--;
         }
       });
-      upControlButton = p5.createButton("^");
-      upControlButton.position(10, 200);
+      upControlButton = p5.createButton("");
+      upControlButton.attribute("class", "mobileButton upControlButton");
+      let upControlImage = p5.createImg(arrowUp, "up arrow");
+      upControlButton.child(upControlImage);
+      // upControlButton.position(10, 200);
       upControlButton.mousePressed(() => {
         if (state === 0 && currentPosition[1] > 0) {
           currentPosition[1]--;
         }
       });
-      downControlButton = p5.createButton("v");
-      downControlButton.position(10, 230);
+      downControlButton = p5.createButton("");
+      downControlButton.attribute("class", "mobileButton downControlButton");
+      let downControlImage = p5.createImg(arrowDown, "down arrow");
+      downControlButton.child(downControlImage);
+      // downControlButton.position(10, 230);
       downControlButton.mousePressed(() => {
         if (state === 0 && currentPosition[1] < 2) {
           currentPosition[1]++;
         }
       });
       zButton = p5.createButton("Z");
-      zButton.position(10, 260);
+      zButton.attribute("class", "mobileButton zButton");
+      // zButton.position(10, 260);
       zButton.mousePressed(() => {
         if (state === 0 && currentPosition[2] > 0) {
           currentPosition[2]--;
@@ -120,7 +143,6 @@ const Script = (props) => {
 
   const subscribeToGame = (callback) => {
     firebase.subscribeToGame(gameCode, (game) => {
-      game = game.game;
       board.board = JSON.parse(game.board);
       currentPlayer = game.currentPlayer;
       currentPosition = game.currentPosition;
@@ -130,6 +152,8 @@ const Script = (props) => {
       joinButton.hide();
       createGameButton.hide();
       gameCodeInput.attribute("disabled", "true");
+      difficultySelectionButton.hide();
+      playWithAiButton.hide();
       if (state === 0) {
         resetButton.hide();
       }
@@ -150,6 +174,10 @@ const Script = (props) => {
         state,
         waitingForOpponent,
       });
+    } else {
+      waitingForOpponent = false;
+      difficultySelectionButton.removeAttribute("disabled");
+      playWithAiButton.removeAttribute("disabled");
     }
     resetButton.hide();
   };
@@ -162,10 +190,10 @@ const Script = (props) => {
     firebase.deleteOldGames();
     isMobileFunc(p5);
     gameCodeInput = p5.createInput("game code");
-    gameCodeInput.position(10, 10);
+    gameCodeInput.attribute("class", "gameCodeInput");
     gameCodeInput.input((e) => (gameCode = e.target.value));
     joinButton = p5.createButton("join");
-    joinButton.position(10, 30);
+    joinButton.attribute("class", "joinButton");
     joinButton.mousePressed(() => {
       subscribeToGame(() => {
         player = 2;
@@ -180,7 +208,7 @@ const Script = (props) => {
       });
     });
     createGameButton = p5.createButton("create game");
-    createGameButton.position(10, 50);
+    createGameButton.attribute("class", "createGameButton");
     createGameButton.mousePressed(() => {
       firebase.createGame(
         {
@@ -200,13 +228,13 @@ const Script = (props) => {
       );
     });
     resetButton = p5.createButton("Reset");
-    resetButton.position(10, 80);
+    resetButton.attribute("class", "resetButton");
     resetButton.mousePressed(() => {
       resetRoutine();
     });
     resetButton.hide();
     playWithAiButton = p5.createButton("Play with AI");
-    playWithAiButton.position(10, 70);
+    playWithAiButton.attribute("class", "playWithAiButton");
     playWithAiButton.mousePressed(() => {
       ai = true;
       player = 1;
@@ -215,9 +243,10 @@ const Script = (props) => {
       joinButton.hide();
       createGameButton.hide();
       difficultySelectionButton.attribute("disabled", true);
+      playWithAiButton.attribute("disabled", true);
     });
     difficultySelectionButton = p5.createSelect();
-    difficultySelectionButton.position(10, 90);
+    difficultySelectionButton.attribute("class", "difficultySelectionButton");
     difficultySelectionButton.option("Random");
     difficultySelectionButton.option("Easy");
     difficultySelectionButton.option("Medium");
@@ -294,24 +323,37 @@ const Script = (props) => {
   }
 
   const draw = (p5) => {
-    p5.background(255);
+    p5.background(backgroundColor);
     p5.textFont(font);
     p5.textSize(isMobile ? 12 : 32);
     p5.textAlign(p5.CENTER, p5.CENTER);
+    let shift = isMobile ? 0 : 100;
     if (state === 0 && !waitingForOpponent) {
-      if (currentPlayer === 1) p5.fill(255, 0, 0);
-      else p5.fill(0, 0, 255);
-      p5.text("current player " + currentPlayer, 0, -p5.height / 2 + 50);
-      p5.text("current position " + currentPosition, 0, -p5.height / 2 + 100);
+      if (currentPlayer === 1) p5.fill(primaryColor);
+      else p5.fill(secondaryColor);
+      p5.text("current player " + currentPlayer, 0, -p5.height / 2 + 100);
     }
-    p5.fill(255, 0, 0);
-    p5.text("Player 1 in red", -p5.width / 2 + 100, -p5.height / 2 + 50);
-    if (player === 1) p5.text("You", -p5.width / 2 + 100, -p5.height / 2 + 100);
-    p5.fill(0, 0, 255);
-    p5.text("Player 2 in blue", p5.width / 2 - 100, -p5.height / 2 + 50);
-    if (player === 2) p5.text("You", p5.width / 2 - 100, -p5.height / 2 + 100);
+    p5.fill(primaryColor);
+    p5.stroke(secondaryColor);
+    p5.text(
+      "Player 1 in this color",
+      -p5.width / 2 + 100,
+      -p5.height / 2 + 50 + shift
+    );
+    if (player === 1)
+      p5.text("You", -p5.width / 2 + 100, -p5.height / 2 + 100 + shift);
+    p5.fill(secondaryColor);
+    p5.stroke(secondaryColor);
+    p5.text(
+      "Player 2 in this color",
+      p5.width / 2 - 100,
+      -p5.height / 2 + 50 + shift
+    );
+    if (player === 2)
+      p5.text("You", p5.width / 2 - 100, -p5.height / 2 + 100 + shift);
     if (!isMobile) {
-      p5.fill(0);
+      p5.fill(textColor);
+      p5.stroke(textColor);
       p5.text("3D XO", -p5.width / 2, p5.height / 2);
       p5.text(
         "Move through x-axis with left & right keys",
@@ -328,7 +370,7 @@ const Script = (props) => {
     }
     p5.orbitControl(3, 3, 0.1);
     p5.ambientLight(255);
-    p5.ambientMaterial(100);
+    p5.ambientMaterial(textColor);
     p5.push();
     p5.translate(-200, -200, -300);
     if (!waitingForOpponent) {
@@ -339,8 +381,8 @@ const Script = (props) => {
             p5.push();
             p5.translate(x * 200, y * 200, z * 200);
             if (board.board[x][y][z] === 1) {
-              p5.fill(255, 0, 0);
-              p5.stroke(255, 0, 0);
+              p5.fill(primaryColor);
+              p5.stroke(primaryColor);
               // 3d x
               p5.push();
               p5.rotateZ(p5.PI / 4);
@@ -354,12 +396,12 @@ const Script = (props) => {
               p5.pop();
             } else if (board.board[x][y][z] === 2) {
               p5.push();
-              p5.fill(0, 0, 255);
-              p5.stroke(0, 0, 255);
+              p5.fill(secondaryColor);
+              p5.stroke(secondaryColor);
               p5.sphere(50);
               p5.pop();
             } else {
-              p5.fill(255);
+              p5.fill(textColor);
               p5.stroke(0);
               p5.box(100);
             }
@@ -376,14 +418,11 @@ const Script = (props) => {
         currentPosition[2] * 200
       );
       if (currentPlayer === 1) {
-        p5.stroke(255, 0, 0);
-        p5.fill(255, 0, 0);
+        p5.stroke(primaryColor);
+        p5.fill(primaryColor);
       } else if (currentPlayer === 2) {
-        p5.stroke(0, 0, 255);
-        p5.fill(0, 0, 255);
-      } else {
-        p5.stroke(0);
-        p5.fill(0);
+        p5.stroke(secondaryColor);
+        p5.fill(secondaryColor);
       }
       if (
         !board.checkifValid(
@@ -399,23 +438,28 @@ const Script = (props) => {
     } else if (state === 0 && waitingForOpponent) {
       p5.push();
       p5.translate(200, 200, 300);
-      p5.fill(0);
+      p5.stroke(textColor);
+      p5.fill(textColor);
       p5.text("Waiting for opponent", 0, 0);
       p5.pop();
-    } else {
+    }
+    if (state === 0) {
       resetButton.show();
     }
     p5.pop();
     p5.push();
     if (state === 1) {
-      p5.fill(255, 0, 0);
-      p5.text("Player 1 won", 0, -p5.height / 2 + 50);
+      p5.fill(primaryColor);
+      p5.stroke(primaryColor);
+      p5.text("Player 1 won", 0, -p5.height / 2 + 100);
     } else if (state === 2) {
-      p5.fill(0, 0, 255);
-      p5.text("Player 2 won", 0, -p5.height / 2 + 50);
+      p5.fill(secondaryColor);
+      p5.stroke(secondaryColor);
+      p5.text("Player 2 won", 0, -p5.height / 2 + 100);
     } else if (state === 3) {
-      p5.fill(0);
-      p5.text("Draw", 0, -p5.height / 2 + 50);
+      p5.fill(textColor);
+      p5.stroke(textColor);
+      p5.text("Draw", 0, -p5.height / 2 + 100);
     }
     p5.pop();
     if (ai && currentPlayer === 2) {

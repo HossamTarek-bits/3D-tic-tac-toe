@@ -1,5 +1,131 @@
+/* color palate
+  #181818
+  #8758FF
+  #5CB8E4
+  #F2F2F2
+ */
+
+ :root{
+  --background-color: #181818;
+  --primary-color: #8758FF;
+  --secondary-color: #5CB8E4;
+  --text-color: #F2F2F2;
+ }
+
 body {
   margin: 0;
   padding: 0;
   overflow: hidden;
 }
+
+button{
+  border: none;
+  color: var(--text-color);
+  
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 20px;
+  font-size: 1rem;
+  width: 4rem;
+  height: 2rem;
+}
+
+.resetButton{
+  /* Center at top middle of the page */
+  position: absolute;
+  top: 2%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  /* Style */
+  background-color: var(--secondary-color);
+}
+
+.playWithAiButton{
+  /* Right side of the page */
+  position: absolute;
+  top: 2%;
+  right: 2%;
+  /* Style */
+  background-color: var(--primary-color);
+  width: 8rem;
+}
+
+.difficultySelectionButton{
+  position: absolute;
+  top: 6%;
+  right: 3%;
+  /* Style */
+  border: 1px solid var(--primary-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.gameCodeInput{
+  position: absolute;
+  top: 2%;
+  left : 2%;
+  /* Style */
+  width: 8rem;
+  border-radius: 6px;
+  border: 1px solid var(--secondary-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.joinButton{
+  position: absolute;
+  top: 6%;
+  left : 3.5%;
+  /* Style */
+  width: 4rem;
+  background-color: var(--secondary-color);
+}
+.createGameButton{
+  position: absolute;
+  top: 10%;
+  left : 2%;
+  /* Style */
+  width: 8rem;
+  background-color: var(--secondary-color);
+}
+
+.mobileButton{
+  /* Center at down middle of the page */
+  position: absolute;
+  bottom: 2%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  /* Style */
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  vertical-align: middle;
+}
+
+img{
+  filter: invert(100%) sepia(11%) saturate(13%) hue-rotate(103deg) brightness(113%) contrast(90%);
+}
+
+.upControlButton{
+  bottom: 10%;
+}
+
+.leftControlButton{
+  left: 30%;
+}
+
+.rightControlButton{
+  left: 70%;
+}
+
+.zButton{
+  bottom: 10%;
+  left: 30%;
+}
+
+.placeButton{
+  bottom: 10%;
+  left: 70%;
+}
+

@@ -11,11 +11,6 @@ import {
 } from "firebase/firestore";
 import { doc, onSnapshot } from "firebase/firestore";
 
-const {
-  initializeAppCheck,
-  ReCaptchaV3Provider,
-} = require("firebase/app-check");
-
 class Firebase {
   constructor() {
     const firebaseConfig = {
@@ -48,21 +43,17 @@ class Firebase {
     return unsubscribe;
   };
   createGame = async (game, callback) => {
-    const gameId = await addDoc(collection(this.db, "games"), {
-      game: game,
-    });
+    const gameId = await addDoc(collection(this.db, "games"), game);
     callback(gameId.id);
   };
   updateGame = async (gameId, game) => {
-    await updateDoc(doc(this.db, "games", gameId), {
-      game: game,
-    });
+    await updateDoc(doc(this.db, "games", gameId), game);
   };
 
   deleteOldGames = async () => {
     const games = await getDocs(collection(this.db, "games"));
     games.forEach((game) => {
-      if (game.data().game.timeCreated < Date.now() - 1000 * 60 * 60 * 24) {
+      if (game.data().timeCreated < Date.now() - 1000 * 60 * 60 * 24) {
         deleteDoc(doc(this.db, "games", game.id));
       }
     });
