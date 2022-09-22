@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/3D-tic-tac-toe/static/css/main.7b61a25d.css",
-    "main.js": "/3D-tic-tac-toe/static/js/main.f8e6b349.js",
+    "main.js": "/3D-tic-tac-toe/static/js/main.ab258c25.js",
     "static/media/FallingSkyMedium.otf": "/3D-tic-tac-toe/static/media/FallingSkyMedium.55827e3e1d515682e9fa.otf",
     "index.html": "/3D-tic-tac-toe/index.html",
     "static/media/arrow-right.svg": "/3D-tic-tac-toe/static/media/arrow-right.f030f9db04711643a8b421bb60f13018.svg",
@@ -9,10 +9,10 @@
     "static/media/arrow-left.svg": "/3D-tic-tac-toe/static/media/arrow-left.8edfe59d267ad47fbed40e1710984375.svg",
     "static/media/arrow-up.svg": "/3D-tic-tac-toe/static/media/arrow-up.70d8ca827d1640720ed80c86fd48dcfa.svg",
     "main.7b61a25d.css.map": "/3D-tic-tac-toe/static/css/main.7b61a25d.css.map",
-    "main.f8e6b349.js.map": "/3D-tic-tac-toe/static/js/main.f8e6b349.js.map"
+    "main.ab258c25.js.map": "/3D-tic-tac-toe/static/js/main.ab258c25.js.map"
   },
   "entrypoints": [
     "static/css/main.7b61a25d.css",
-    "static/js/main.f8e6b349.js"
+    "static/js/main.ab258c25.js"
   ]
 }
