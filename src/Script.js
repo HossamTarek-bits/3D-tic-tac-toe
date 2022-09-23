@@ -32,10 +32,11 @@ const Script = (props) => {
   let ai = false;
   let difficultySelectionButton;
   let aiDifficulty = "medium";
-  let backgroundColor = ["#181818", "#F9F7F7"];
-  let primaryColor = ["#8758FF", "#3F72AF"];
-  let secondaryColor = ["#5CB8E4", "#7c818a"];
-  let textColor = ["#F2F2F2", "#112D4E"];
+  let backgroundColor = ["#252A34", "#F9F7F7"];
+  let primaryColor = ["#08D9D6", "#3F72AF"];
+  let secondaryColor = ["#FF2E63", "#7c818a"];
+  let textColor = ["#EAEAEA", "#112D4E"];
+  let boxColor = ["#7484a3", "#acacac"];
   let dark = 0;
   let darkButton;
 
@@ -341,7 +342,7 @@ const Script = (props) => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight, p5.WEBGL).parent(
       canvasParentRef
     );
-    p5.camera(0, 0, 1000, 0, 0, 0, 0, 1, 0);
+    p5.camera(0, 0, p5.max(p5.windowWidth * 0.7, 1000), 0, 0, 0, 0, 1, 0);
   };
   const preload = (p5) =>
     (font = p5.loadFont(FallingSkyMedium, (font) => console.log(font)));
@@ -411,12 +412,17 @@ const Script = (props) => {
     p5.textAlign(p5.CENTER, p5.CENTER);
     let shift = isMobile ? 0 : 100;
     if (state === 0 && !waitingForOpponent) {
-      if (currentPlayer === 1) p5.fill(primaryColor[dark]);
-      else p5.fill(secondaryColor[dark]);
+      if (currentPlayer === 1) {
+        p5.fill(primaryColor[dark]);
+        p5.stroke(primaryColor[dark]);
+      } else {
+        p5.fill(secondaryColor[dark]);
+        p5.stroke(secondaryColor[dark]);
+      }
       p5.text("current player " + currentPlayer, 0, -p5.height / 2 + 100);
     }
     p5.fill(primaryColor[dark]);
-    p5.stroke(secondaryColor[dark]);
+    p5.stroke(primaryColor[dark]);
     p5.text(
       "Player 1 in this color",
       -p5.width / 2 + 100,
@@ -450,8 +456,8 @@ const Script = (props) => {
       p5.text("Place with space", 0, p5.height / 2);
     }
     p5.orbitControl(3, 3, 0.1);
-    p5.ambientLight(255);
-    p5.ambientMaterial(textColor[dark]);
+    // p5.ambientLight(255);
+    // p5.ambientMaterial(textColor[dark]);
     p5.push();
     p5.translate(-200, -200, -300);
     if (!waitingForOpponent) {
@@ -482,7 +488,7 @@ const Script = (props) => {
               p5.sphere(50);
               p5.pop();
             } else {
-              p5.fill(textColor[dark]);
+              p5.fill(boxColor[dark]);
               p5.stroke(0);
               p5.box(100);
             }
@@ -559,7 +565,7 @@ const Script = (props) => {
       draw={draw}
       windowResized={(p5) => {
         p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
-        p5.camera(0, 0, 1000, 0, 0, 0, 0, 1, 0);
+        p5.camera(0, 0, p5.max(p5.windowWidth, 1000), 0, 0, 0, 0, 1, 0);
         isMobileFunc(p5);
       }}
     />
