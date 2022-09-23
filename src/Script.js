@@ -7,37 +7,37 @@ import arrowRight from "./icons/arrow-right.svg";
 import arrowLeft from "./icons/arrow-left.svg";
 import arrowUp from "./icons/arrow-up.svg";
 import arrowDown from "./icons/arrow-down.svg";
-
-let board;
-let currentPlayer = 1;
-let currentPosition = [1, 1, 2];
-let font;
-let firebase;
-let state = 0;
-let gameCode = "";
-let joinButton;
-let createGameButton;
-let gameCodeInput;
-let resetButton;
-let waitingForOpponent = true;
-let player = 1;
-let isMobile = false;
-let placeButton;
-let rightControlButton;
-let leftControlButton;
-let upControlButton;
-let downControlButton;
-let zButton;
-let playWithAiButton;
-let ai = false;
-let difficultySelectionButton;
-let aiDifficulty = "medium";
-let backgroundColor = "#181818";
-let primaryColor = "#8758FF";
-let secondaryColor = "#5CB8E4";
-let textColor = "#F2F2F2";
 const Script = (props) => {
-  font = FallingSkyMedium;
+  let board;
+  let currentPlayer = 1;
+  let currentPosition = [1, 1, 2];
+  let font = FallingSkyMedium;
+  let firebase;
+  let state = 0;
+  let gameCode = "";
+  let joinButton;
+  let createGameButton;
+  let gameCodeInput;
+  let resetButton;
+  let waitingForOpponent = true;
+  let player = 1;
+  let isMobile = false;
+  let placeButton;
+  let rightControlButton;
+  let leftControlButton;
+  let upControlButton;
+  let downControlButton;
+  let zButton;
+  let playWithAiButton;
+  let ai = false;
+  let difficultySelectionButton;
+  let aiDifficulty = "medium";
+  let backgroundColor = ["#181818", "#F9F7F7"];
+  let primaryColor = ["#8758FF", "#3F72AF"];
+  let secondaryColor = ["#5CB8E4", "#7c818a"];
+  let textColor = ["#F2F2F2", "#112D4E"];
+  let dark = 0;
+  let darkButton;
 
   const isMobileFunc = (p5) => {
     if (p5.windowWidth < 600) {
@@ -47,7 +47,7 @@ const Script = (props) => {
     }
     if (isMobile) {
       placeButton = p5.createButton("Place");
-      placeButton.attribute("class", "mobileButton placeButton");
+      placeButton.attribute("class", "mobileButton placeButton dark");
 
       // placeButton.position(10, 110);
       placeButton.mousePressed(() => {
@@ -80,47 +80,52 @@ const Script = (props) => {
         }
       });
       rightControlButton = p5.createButton("");
-      rightControlButton.attribute("class", "mobileButton rightControlButton");
+      rightControlButton.attribute(
+        "class",
+        "mobileButton rightControlButton dark"
+      );
       let rightControlImage = p5.createImg(arrowRight, "right arrow");
       rightControlButton.child(rightControlImage);
-      // rightControlButton.position(10, 140);
       rightControlButton.mousePressed(() => {
         if (state === 0 && currentPosition[0] < 2) {
           currentPosition[0]++;
         }
       });
       leftControlButton = p5.createButton("");
-      leftControlButton.attribute("class", "mobileButton leftControlButton");
+      leftControlButton.attribute(
+        "class",
+        "mobileButton leftControlButton dark"
+      );
       let leftControlImage = p5.createImg(arrowLeft, "left arrow");
       leftControlButton.child(leftControlImage);
-      // leftControlButton.position(10, 170);
       leftControlButton.mousePressed(() => {
         if (state === 0 && currentPosition[0] > 0) {
           currentPosition[0]--;
         }
       });
       upControlButton = p5.createButton("");
-      upControlButton.attribute("class", "mobileButton upControlButton");
+      upControlButton.attribute("class", "mobileButton upControlButton dark");
       let upControlImage = p5.createImg(arrowUp, "up arrow");
       upControlButton.child(upControlImage);
-      // upControlButton.position(10, 200);
       upControlButton.mousePressed(() => {
         if (state === 0 && currentPosition[1] > 0) {
           currentPosition[1]--;
         }
       });
       downControlButton = p5.createButton("");
-      downControlButton.attribute("class", "mobileButton downControlButton");
+      downControlButton.attribute(
+        "class",
+        "mobileButton downControlButton dark"
+      );
       let downControlImage = p5.createImg(arrowDown, "down arrow");
       downControlButton.child(downControlImage);
-      // downControlButton.position(10, 230);
       downControlButton.mousePressed(() => {
         if (state === 0 && currentPosition[1] < 2) {
           currentPosition[1]++;
         }
       });
       zButton = p5.createButton("Z");
-      zButton.attribute("class", "mobileButton zButton");
+      zButton.attribute("class", "mobileButton zButton dark");
       // zButton.position(10, 260);
       zButton.mousePressed(() => {
         if (state === 0 && currentPosition[2] > 0) {
@@ -184,16 +189,15 @@ const Script = (props) => {
 
   const setup = (p5, canvasParentRef) => {
     // 3x3x3 board
-
     board = new Board();
     firebase = new Firebase();
     firebase.deleteOldGames();
     isMobileFunc(p5);
     gameCodeInput = p5.createInput("game code");
-    gameCodeInput.attribute("class", "gameCodeInput");
+    gameCodeInput.attribute("class", "gameCodeInput dark");
     gameCodeInput.input((e) => (gameCode = e.target.value));
     joinButton = p5.createButton("join");
-    joinButton.attribute("class", "joinButton");
+    joinButton.attribute("class", "joinButton dark");
     joinButton.mousePressed(() => {
       subscribeToGame(() => {
         player = 2;
@@ -208,7 +212,7 @@ const Script = (props) => {
       });
     });
     createGameButton = p5.createButton("create game");
-    createGameButton.attribute("class", "createGameButton");
+    createGameButton.attribute("class", "createGameButton dark");
     createGameButton.mousePressed(() => {
       firebase.createGame(
         {
@@ -234,7 +238,7 @@ const Script = (props) => {
     });
     resetButton.hide();
     playWithAiButton = p5.createButton("Play with AI");
-    playWithAiButton.attribute("class", "playWithAiButton");
+    playWithAiButton.attribute("class", "playWithAiButton dark");
     playWithAiButton.mousePressed(() => {
       ai = true;
       player = 1;
@@ -246,7 +250,10 @@ const Script = (props) => {
       playWithAiButton.attribute("disabled", true);
     });
     difficultySelectionButton = p5.createSelect();
-    difficultySelectionButton.attribute("class", "difficultySelectionButton");
+    difficultySelectionButton.attribute(
+      "class",
+      "difficultySelectionButton dark"
+    );
     difficultySelectionButton.option("Random");
     difficultySelectionButton.option("Easy");
     difficultySelectionButton.option("Medium");
@@ -255,6 +262,81 @@ const Script = (props) => {
     difficultySelectionButton.value("Medium");
     difficultySelectionButton.changed(() => {
       aiDifficulty = difficultySelectionButton.value().toLowerCase();
+    });
+    darkButton = p5.createInput("", "checkbox");
+    darkButton.attribute("type", "checkbox");
+    let label = p5.createElement("label");
+    label.attribute("class", "switch");
+    label.child(darkButton);
+    let span = p5.createElement("span");
+    span.attribute("class", "slider round dark");
+    label.child(span);
+    darkButton.input(() => {
+      if (dark === 1) {
+        dark = 0;
+        gameCodeInput.attribute("class", "gameCodeInput dark");
+        joinButton.attribute("class", "joinButton dark");
+        createGameButton.attribute("class", "createGameButton dark");
+        resetButton.attribute("class", "resetButton dark");
+        playWithAiButton.attribute("class", "playWithAiButton dark");
+        difficultySelectionButton.attribute(
+          "class",
+          "difficultySelectionButton dark"
+        );
+        span.attribute("class", "slider round dark");
+        if (isMobile) {
+          placeButton.attribute("class", "mobileButton placeButton dark");
+          rightControlButton.attribute(
+            "class",
+            "mobileButton rightControlButton dark"
+          );
+          leftControlButton.attribute(
+            "class",
+            "mobileButton leftControlButton dark"
+          );
+          upControlButton.attribute(
+            "class",
+            "mobileButton upControlButton dark"
+          );
+          downControlButton.attribute(
+            "class",
+            "mobileButton downControlButton dark"
+          );
+          zButton.attribute("class", "mobileButton zButton dark");
+        }
+      } else {
+        dark = 1;
+        gameCodeInput.attribute("class", "gameCodeInput light");
+        joinButton.attribute("class", "joinButton light");
+        createGameButton.attribute("class", "createGameButton light");
+        resetButton.attribute("class", "resetButton light");
+        playWithAiButton.attribute("class", "playWithAiButton light");
+        difficultySelectionButton.attribute(
+          "class",
+          "difficultySelectionButton light"
+        );
+        span.attribute("class", "slider round light");
+        if (isMobile) {
+          placeButton.attribute("class", "mobileButton light placeButton");
+          rightControlButton.attribute(
+            "class",
+            "mobileButton rightControlButton light"
+          );
+          leftControlButton.attribute(
+            "class",
+            "mobileButton leftControlButton light"
+          );
+          upControlButton.attribute(
+            "class",
+            "mobileButton upControlButton light"
+          );
+          downControlButton.attribute(
+            "class",
+            "mobileButton downControlButton light"
+          );
+          zButton.attribute("class", "mobileButton zButton light");
+        }
+      }
     });
     p5.createCanvas(p5.windowWidth, p5.windowHeight, p5.WEBGL).parent(
       canvasParentRef
@@ -323,18 +405,18 @@ const Script = (props) => {
   }
 
   const draw = (p5) => {
-    p5.background(backgroundColor);
+    p5.background(backgroundColor[dark]);
     p5.textFont(font);
     p5.textSize(isMobile ? 12 : 32);
     p5.textAlign(p5.CENTER, p5.CENTER);
     let shift = isMobile ? 0 : 100;
     if (state === 0 && !waitingForOpponent) {
-      if (currentPlayer === 1) p5.fill(primaryColor);
-      else p5.fill(secondaryColor);
+      if (currentPlayer === 1) p5.fill(primaryColor[dark]);
+      else p5.fill(secondaryColor[dark]);
       p5.text("current player " + currentPlayer, 0, -p5.height / 2 + 100);
     }
-    p5.fill(primaryColor);
-    p5.stroke(secondaryColor);
+    p5.fill(primaryColor[dark]);
+    p5.stroke(secondaryColor[dark]);
     p5.text(
       "Player 1 in this color",
       -p5.width / 2 + 100,
@@ -342,8 +424,8 @@ const Script = (props) => {
     );
     if (player === 1)
       p5.text("You", -p5.width / 2 + 100, -p5.height / 2 + 100 + shift);
-    p5.fill(secondaryColor);
-    p5.stroke(secondaryColor);
+    p5.fill(secondaryColor[dark]);
+    p5.stroke(secondaryColor[dark]);
     p5.text(
       "Player 2 in this color",
       p5.width / 2 - 100,
@@ -352,9 +434,8 @@ const Script = (props) => {
     if (player === 2)
       p5.text("You", p5.width / 2 - 100, -p5.height / 2 + 100 + shift);
     if (!isMobile) {
-      p5.fill(textColor);
-      p5.stroke(textColor);
-      p5.text("3D XO", -p5.width / 2, p5.height / 2);
+      p5.fill(textColor[dark]);
+      p5.stroke(textColor[dark]);
       p5.text(
         "Move through x-axis with left & right keys",
         0,
@@ -370,7 +451,7 @@ const Script = (props) => {
     }
     p5.orbitControl(3, 3, 0.1);
     p5.ambientLight(255);
-    p5.ambientMaterial(textColor);
+    p5.ambientMaterial(textColor[dark]);
     p5.push();
     p5.translate(-200, -200, -300);
     if (!waitingForOpponent) {
@@ -381,8 +462,8 @@ const Script = (props) => {
             p5.push();
             p5.translate(x * 200, y * 200, z * 200);
             if (board.board[x][y][z] === 1) {
-              p5.fill(primaryColor);
-              p5.stroke(primaryColor);
+              p5.fill(primaryColor[dark]);
+              p5.stroke(primaryColor[dark]);
               // 3d x
               p5.push();
               p5.rotateZ(p5.PI / 4);
@@ -396,12 +477,12 @@ const Script = (props) => {
               p5.pop();
             } else if (board.board[x][y][z] === 2) {
               p5.push();
-              p5.fill(secondaryColor);
-              p5.stroke(secondaryColor);
+              p5.fill(secondaryColor[dark]);
+              p5.stroke(secondaryColor[dark]);
               p5.sphere(50);
               p5.pop();
             } else {
-              p5.fill(textColor);
+              p5.fill(textColor[dark]);
               p5.stroke(0);
               p5.box(100);
             }
@@ -418,11 +499,11 @@ const Script = (props) => {
         currentPosition[2] * 200
       );
       if (currentPlayer === 1) {
-        p5.stroke(primaryColor);
-        p5.fill(primaryColor);
+        p5.stroke(primaryColor[dark]);
+        p5.fill(primaryColor[dark]);
       } else if (currentPlayer === 2) {
-        p5.stroke(secondaryColor);
-        p5.fill(secondaryColor);
+        p5.stroke(secondaryColor[dark]);
+        p5.fill(secondaryColor[dark]);
       }
       if (
         !board.checkifValid(
@@ -438,8 +519,8 @@ const Script = (props) => {
     } else if (state === 0 && waitingForOpponent) {
       p5.push();
       p5.translate(200, 200, 300);
-      p5.stroke(textColor);
-      p5.fill(textColor);
+      p5.stroke(textColor[dark]);
+      p5.fill(textColor[dark]);
       p5.text("Waiting for opponent", 0, 0);
       p5.pop();
     }
@@ -449,16 +530,16 @@ const Script = (props) => {
     p5.pop();
     p5.push();
     if (state === 1) {
-      p5.fill(primaryColor);
-      p5.stroke(primaryColor);
+      p5.fill(primaryColor[dark]);
+      p5.stroke(primaryColor[dark]);
       p5.text("Player 1 won", 0, -p5.height / 2 + 100);
     } else if (state === 2) {
-      p5.fill(secondaryColor);
-      p5.stroke(secondaryColor);
+      p5.fill(secondaryColor[dark]);
+      p5.stroke(secondaryColor[dark]);
       p5.text("Player 2 won", 0, -p5.height / 2 + 100);
     } else if (state === 3) {
-      p5.fill(textColor);
-      p5.stroke(textColor);
+      p5.fill(textColor[dark]);
+      p5.stroke(textColor[dark]);
       p5.text("Draw", 0, -p5.height / 2 + 100);
     }
     p5.pop();

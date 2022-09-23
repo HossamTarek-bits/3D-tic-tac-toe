@@ -3,13 +3,23 @@
   #8758FF
   #5CB8E4
   #F2F2F2
+
+  #F9F7F7
+  #3F72AF
+  #7c818a
+  #112D4E
  */
 
  :root{
-  --background-color: #181818;
-  --primary-color: #8758FF;
-  --secondary-color: #5CB8E4;
-  --text-color: #F2F2F2;
+  --background-color-dark:   #181818;
+  --primary-color-dark:      #8758FF;
+  --secondary-color-dark:    #5CB8E4;
+  --text-color-dark:         #F2F2F2;
+
+  --background-color-light:  #F9F7F7;
+  --primary-color-light:     #3F72AF;
+  --secondary-color-light:   #7c818a;
+  --text-color-light:        #112D4E;
  }
 
 body {
@@ -19,9 +29,7 @@ body {
 }
 
 button{
-  border: none;
-  color: var(--text-color);
-  
+  border: none;  
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -32,6 +40,14 @@ button{
   height: 2rem;
 }
 
+button.dark{
+  color: var(--text-color-dark);
+}
+
+button.light{
+  color: var(--text-color-light);
+}
+
 .resetButton{
   /* Center at top middle of the page */
   position: absolute;
@@ -39,7 +55,16 @@ button{
   left: 50%;
   transform: translate(-50%, 0);
   /* Style */
-  background-color: var(--secondary-color);
+}
+
+.resetButton.dark{
+  background-color: var(--secondary-color-dark);
+  color: var(--text-color-dark);
+}
+
+.resetButton.light{
+  background-color: var(--secondary-color-light);
+  color: var(--background-color-light);
 }
 
 .playWithAiButton{
@@ -48,18 +73,35 @@ button{
   top: 2%;
   right: 2%;
   /* Style */
-  background-color: var(--primary-color);
   width: 8rem;
+}
+
+.playWithAiButton.dark{
+  background-color: var(--primary-color-dark);
+  color: var(--text-color-dark);
+}
+
+.playWithAiButton.light{
+  background-color: var(--primary-color-light);
+  color: var(--background-color-light);
 }
 
 .difficultySelectionButton{
   position: absolute;
   top: 6%;
   right: 3%;
-  /* Style */
-  border: 1px solid var(--primary-color);
-  background-color: var(--background-color);
-  color: var(--text-color);
+}
+
+.difficultySelectionButton.dark{
+  border: 1px solid var(--primary-color-dark);
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}
+
+.difficultySelectionButton.light{
+  border: 1px solid var(--primary-color-light);
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
 }
 
 .gameCodeInput{
@@ -69,9 +111,18 @@ button{
   /* Style */
   width: 8rem;
   border-radius: 6px;
-  border: 1px solid var(--secondary-color);
-  background-color: var(--background-color);
-  color: var(--text-color);
+}
+
+.gameCodeInput.dark{
+  border: 1px solid var(--secondary-color-dark);
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}
+
+.gameCodeInput.light{
+  border: 1px solid var(--secondary-color-light);
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
 }
 
 .joinButton{
@@ -80,15 +131,34 @@ button{
   left : 3.5%;
   /* Style */
   width: 4rem;
-  background-color: var(--secondary-color);
 }
+
+.joinButton.dark{
+  background-color: var(--secondary-color-dark);
+  color: var(--text-color-dark);
+}
+
+.joinButton.light{
+  background-color: var(--secondary-color-light);
+  color: var(--background-color-light);
+}
+
 .createGameButton{
   position: absolute;
   top: 10%;
   left : 2%;
   /* Style */
-  width: 8rem;
-  background-color: var(--secondary-color);
+  width: 8rem;  
+}
+
+.createGameButton.dark{
+  background-color: var(--secondary-color-dark);
+  color: var(--text-color-dark);
+}
+
+.createGameButton.light{
+  background-color: var(--secondary-color-light);
+  color: var(--background-color-light);
 }
 
 .mobileButton{
@@ -98,9 +168,18 @@ button{
   left: 50%;
   transform: translate(-50%, 0);
   /* Style */
-  background-color: var(--primary-color);
-  color: var(--text-color);
   vertical-align: middle;
+}
+
+.mobileButton.dark{
+  background-color: var(--primary-color-dark);
+  color: var(--text-color-dark);
+}
+
+.mobileButton.light{
+  background-color: var(--primary-color-light);
+  color: var(--background-color-light);
+  
 }
 
 img{
@@ -129,3 +208,74 @@ img{
   left: 70%;
 }
 
+.switch {
+  position: absolute;
+  bottom: 2%;
+  left: 2%;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider.dark{
+  background-color: var(--primary-color-dark);
+}
+
+.slider.light{
+  background-color: var(--primary-color-light);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--text-color-dark);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider.dark {
+  
+  background-color: var(--text-color-light);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--text-color-light);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
