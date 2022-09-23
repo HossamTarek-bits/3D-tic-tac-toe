@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/3D-tic-tac-toe/static/css/main.7b61a25d.css",
-    "main.js": "/3D-tic-tac-toe/static/js/main.ab258c25.js",
+    "main.css": "/3D-tic-tac-toe/static/css/main.f71af655.css",
+    "main.js": "/3D-tic-tac-toe/static/js/main.3be5d539.js",
     "static/media/FallingSkyMedium.otf": "/3D-tic-tac-toe/static/media/FallingSkyMedium.55827e3e1d515682e9fa.otf",
     "index.html": "/3D-tic-tac-toe/index.html",
     "static/media/arrow-right.svg": "/3D-tic-tac-toe/static/media/arrow-right.f030f9db04711643a8b421bb60f13018.svg",
     "static/media/arrow-down.svg": "/3D-tic-tac-toe/static/media/arrow-down.1eca03ef4a23db15831de9ee21016747.svg",
     "static/media/arrow-left.svg": "/3D-tic-tac-toe/static/media/arrow-left.8edfe59d267ad47fbed40e1710984375.svg",
     "static/media/arrow-up.svg": "/3D-tic-tac-toe/static/media/arrow-up.70d8ca827d1640720ed80c86fd48dcfa.svg",
-    "main.7b61a25d.css.map": "/3D-tic-tac-toe/static/css/main.7b61a25d.css.map",
-    "main.ab258c25.js.map": "/3D-tic-tac-toe/static/js/main.ab258c25.js.map"
+    "main.f71af655.css.map": "/3D-tic-tac-toe/static/css/main.f71af655.css.map",
+    "main.3be5d539.js.map": "/3D-tic-tac-toe/static/js/main.3be5d539.js.map"
   },
   "entrypoints": [
-    "static/css/main.7b61a25d.css",
-    "static/js/main.ab258c25.js"
+    "static/css/main.f71af655.css",
+    "static/js/main.3be5d539.js"
   ]
 }
